@@ -128,6 +128,16 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AgentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  description: 'description',
+  settings: 'settings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -141,16 +151,6 @@ exports.Prisma.MessageScalarFieldEnum = {
   conversationId: 'conversationId',
   isFromAgent: 'isFromAgent',
   message: 'message',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.AgentScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  name: 'name',
-  description: 'description',
-  settings: 'settings',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -184,9 +184,9 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Agent: 'Agent',
   Conversation: 'Conversation',
-  Message: 'Message',
-  Agent: 'Agent'
+  Message: 'Message'
 };
 
 /**
