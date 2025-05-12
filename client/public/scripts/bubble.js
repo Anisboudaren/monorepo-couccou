@@ -1,7 +1,7 @@
 (function () {
   // Create the chat bubble icon
   const bubbleIcon = document.createElement('iframe');
-  bubbleIcon.src = '../bubble'; // Replace with the correct path to your chat bubble iframe
+  bubbleIcon.src = 'monorepo-couccou-ehl2.vercel.app/bubble'; // Replace with the correct path to your chat bubble iframe
   bubbleIcon.width = '70';
   bubbleIcon.height = '70';
   bubbleIcon.style.border = 'none';
@@ -15,7 +15,7 @@
 
   // Create the chat window iframe (initially hidden)
   const chatWindow = document.createElement('iframe');
-  chatWindow.src = '../bubble-window'; // Replace with the correct path to your chat window iframe
+  chatWindow.src = 'monorepo-couccou-ehl2.vercel.app/bubble-window'; // Replace with the correct path to your chat window iframe
   chatWindow.width = '100%';
   chatWindow.height = '100%';
   chatWindow.style.border = 'none';
