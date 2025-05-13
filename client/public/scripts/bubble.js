@@ -33,17 +33,19 @@
   // Listen for the postMessage from the parent or other iframes
   window.addEventListener('message', event => {
     // Check if the message is coming from a trusted source (optional, add your domain)
-    if (event.origin !== window.location.origin) {
-      return;
-    }
+    
 
     // Open or close the chat based on the message
     if (event.data.message === 'openChat') {
       chatWindow.style.opacity = '1'; // Make the chat window visible
       chatWindow.style.transform = 'translateY(0)'; // Slide the chat window in
+      console.log("trying to open chat ");
+      
     } else if (event.data.message === 'closeChat') {
       chatWindow.style.opacity = '0'; // Make the chat window invisible
       chatWindow.style.transform = 'translateY(100vh)'; // Slide the chat window out
+      console.log("trying to close it ");
+      
     }
   });
 
