@@ -50,5 +50,7 @@
   // Send a message when the bubble icon is clicked
   bubbleIcon.addEventListener('click', () => {
     window.postMessage({ message: 'openChat' }, '*'); // Open the chat
+    console.log("bawni gali hadi makanch , es ce que sah ? ");
+    
   });
 })();
