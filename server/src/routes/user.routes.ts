@@ -82,6 +82,18 @@ router.post("/add", UserController.createUser);
 
 /**
  * @swagger
+ * /user/me:
+ *   get:
+ *     summary: Get the authenticated user's information
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: User information retrieved successfully
+ */
+router.get("/me", UserController.getMe);
+
+/**
+ * @swagger
  * /user/{id}:
  *   get:
  *     summary: Get a user by ID
@@ -335,4 +347,8 @@ router.delete("/:id", UserController.deleteUser);
  *         description: Agents retrieved successfully
  */
 router.get("/:userId/agents", UserController.getUserAgents);
+
+
+
+
 export default router;

@@ -30,8 +30,10 @@ export const getAgentById = async (id: string) => {
     return agent;
 };
 
-export const getAllAgents = async () => {
-    return await prisma.agent.findMany();
+export const getAllAgents = async (userId: string) => {
+    return await prisma.agent.findMany({
+        where: { userId },
+    });
 };
 
 export const updateAgent = async (id: string, data: UpdateAgentInput) => {

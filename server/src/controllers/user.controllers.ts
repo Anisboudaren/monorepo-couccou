@@ -123,3 +123,23 @@ export const getUserAgents = async (req: Request, res: Response) => {
         });
     }
 };
+
+export const getMe = async (req: Request, res: Response) => {
+    try {
+        const user = req.user
+        res.status(200).json({
+            success: true,
+            message: "User retrieved successfully",
+            data: user,
+            error: null,
+        });
+    } catch (error: any) {
+        res.status(404).json({
+            success: false,
+            message: "User not found",
+            data: null,
+            error: error.message,
+        });
+    }
+}
+

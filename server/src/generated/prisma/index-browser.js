@@ -123,6 +123,7 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   username: 'username',
+  googleId: 'googleId',
   settings: 'settings',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -140,7 +141,6 @@ exports.Prisma.AgentScalarFieldEnum = {
 
 exports.Prisma.ConversationScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   agentId: 'agentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

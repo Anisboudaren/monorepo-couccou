@@ -1,10 +1,28 @@
+
+
+
 import { Request, Response } from "express";
 import * as AgentServices from "../services/agent.services";
+import CustomUser from "../types/user";
+
+interface Agent {
+    userId: string;
+    name: string;
+    description: string;
+    settings: { [key: string]: any };
+}
 
 // Create Agent
 export const createAgent = async (req: Request, res: Response) => {
     try {
-        const agent = await AgentServices.createAgent(req.body);
+        const user = req.user as CustomUser;
+        const { name, description, settings } = req.body as Agent;
+        const agent = await AgentServices.createAgent({
+            userId: user.id,
+            name,
+            description,
+            settings : settings || {},
+        });
         res.status(201).json({
             success: true,
             message: "Agent created successfully",
@@ -41,17 +59,32 @@ export const getAgentById = async (req: Request, res: Response) => {
     }
 };
 
-// Get All Agents
-export const getAllAgents = async (_req: Request, res: Response) => {
+
+export const getAllAgents = async (req: Request, res: Response) => {
     try {
-        const agents = await AgentServices.getAllAgents();
-        res.status(200).json({
+        console.log(req.user);
+        
+        const user = req.user as CustomUser;
+        if (!req.user) {
+             res.status(401).json({
+                success: false,
+                message: "Unauthorized: User information is missing",
+                data: null,
+                error: "User not authenticated",
+            });
+    } else {
+
+        console.log(user.id)
+        const agents = await AgentServices.getAllAgents(user.id);
+         res.status(200).json({
             success: true,
             message: "Agents retrieved successfully",
-            count : agents.length,
+            count: agents.length,
             data: agents,
             error: null,
         });
+    }
+
     } catch (error: any) {
         res.status(500).json({
             success: false,
@@ -59,7 +92,7 @@ export const getAllAgents = async (_req: Request, res: Response) => {
             data: null,
             error: "Failed to fetch agents",
         });
-    }
+        }
 };
 
 // Update Agent

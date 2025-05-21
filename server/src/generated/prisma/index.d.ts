@@ -1142,12 +1142,10 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    conversations: number
     agents: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    conversations?: boolean | UserCountOutputTypeCountConversationsArgs
     agents?: boolean | UserCountOutputTypeCountAgentsArgs
   }
 
@@ -1160,13 +1158,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConversationWhereInput
   }
 
   /**
@@ -1259,6 +1250,7 @@ export namespace Prisma {
     password: string | null
     role: string | null
     username: string | null
+    googleId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1269,6 +1261,7 @@ export namespace Prisma {
     password: string | null
     role: string | null
     username: string | null
+    googleId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1279,6 +1272,7 @@ export namespace Prisma {
     password: number
     role: number
     username: number
+    googleId: number
     settings: number
     createdAt: number
     updatedAt: number
@@ -1292,6 +1286,7 @@ export namespace Prisma {
     password?: true
     role?: true
     username?: true
+    googleId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1302,6 +1297,7 @@ export namespace Prisma {
     password?: true
     role?: true
     username?: true
+    googleId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1312,6 +1308,7 @@ export namespace Prisma {
     password?: true
     role?: true
     username?: true
+    googleId?: true
     settings?: true
     createdAt?: true
     updatedAt?: true
@@ -1393,9 +1390,10 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     email: string
-    password: string
+    password: string | null
     role: string
     username: string
+    googleId: string | null
     settings: JsonValue | null
     createdAt: Date
     updatedAt: Date
@@ -1424,10 +1422,10 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     username?: boolean
+    googleId?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    conversations?: boolean | User$conversationsArgs<ExtArgs>
     agents?: boolean | User$agentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1438,6 +1436,7 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     username?: boolean
+    googleId?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1449,6 +1448,7 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     username?: boolean
+    googleId?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1460,14 +1460,14 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     username?: boolean
+    googleId?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "username" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "username" | "googleId" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    conversations?: boolean | User$conversationsArgs<ExtArgs>
     agents?: boolean | User$agentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -1477,15 +1477,15 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      conversations: Prisma.$ConversationPayload<ExtArgs>[]
       agents: Prisma.$AgentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string
-      password: string
+      password: string | null
       role: string
       username: string
+      googleId: string | null
       settings: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
@@ -1883,7 +1883,6 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    conversations<T extends User$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     agents<T extends User$agentsArgs<ExtArgs> = {}>(args?: Subset<T, User$agentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1919,6 +1918,7 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
+    readonly googleId: FieldRef<"User", 'String'>
     readonly settings: FieldRef<"User", 'Json'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -2307,30 +2307,6 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
-  }
-
-  /**
-   * User.conversations
-   */
-  export type User$conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Conversation
-     */
-    select?: ConversationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Conversation
-     */
-    omit?: ConversationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ConversationInclude<ExtArgs> | null
-    where?: ConversationWhereInput
-    orderBy?: ConversationOrderByWithRelationInput | ConversationOrderByWithRelationInput[]
-    cursor?: ConversationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
   }
 
   /**
@@ -3498,7 +3474,6 @@ export namespace Prisma {
 
   export type ConversationMinAggregateOutputType = {
     id: string | null
-    userId: string | null
     agentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3506,7 +3481,6 @@ export namespace Prisma {
 
   export type ConversationMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
     agentId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3514,7 +3488,6 @@ export namespace Prisma {
 
   export type ConversationCountAggregateOutputType = {
     id: number
-    userId: number
     agentId: number
     createdAt: number
     updatedAt: number
@@ -3524,7 +3497,6 @@ export namespace Prisma {
 
   export type ConversationMinAggregateInputType = {
     id?: true
-    userId?: true
     agentId?: true
     createdAt?: true
     updatedAt?: true
@@ -3532,7 +3504,6 @@ export namespace Prisma {
 
   export type ConversationMaxAggregateInputType = {
     id?: true
-    userId?: true
     agentId?: true
     createdAt?: true
     updatedAt?: true
@@ -3540,7 +3511,6 @@ export namespace Prisma {
 
   export type ConversationCountAggregateInputType = {
     id?: true
-    userId?: true
     agentId?: true
     createdAt?: true
     updatedAt?: true
@@ -3621,7 +3591,6 @@ export namespace Prisma {
 
   export type ConversationGroupByOutputType = {
     id: string
-    userId: string
     agentId: string
     createdAt: Date
     updatedAt: Date
@@ -3646,11 +3615,9 @@ export namespace Prisma {
 
   export type ConversationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     agentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     agent?: boolean | AgentDefaultArgs<ExtArgs>
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
     _count?: boolean | ConversationCountOutputTypeDefaultArgs<ExtArgs>
@@ -3658,58 +3625,48 @@ export namespace Prisma {
 
   export type ConversationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     agentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     agent?: boolean | AgentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversation"]>
 
   export type ConversationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     agentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     agent?: boolean | AgentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["conversation"]>
 
   export type ConversationSelectScalar = {
     id?: boolean
-    userId?: boolean
     agentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "agentId" | "createdAt" | "updatedAt", ExtArgs["result"]["conversation"]>
+  export type ConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "agentId" | "createdAt" | "updatedAt", ExtArgs["result"]["conversation"]>
   export type ConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     agent?: boolean | AgentDefaultArgs<ExtArgs>
     messages?: boolean | Conversation$messagesArgs<ExtArgs>
     _count?: boolean | ConversationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ConversationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     agent?: boolean | AgentDefaultArgs<ExtArgs>
   }
   export type ConversationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     agent?: boolean | AgentDefaultArgs<ExtArgs>
   }
 
   export type $ConversationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Conversation"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       agent: Prisma.$AgentPayload<ExtArgs>
       messages: Prisma.$MessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
       agentId: string
       createdAt: Date
       updatedAt: Date
@@ -4107,7 +4064,6 @@ export namespace Prisma {
    */
   export interface Prisma__ConversationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     agent<T extends AgentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AgentDefaultArgs<ExtArgs>>): Prisma__AgentClient<$Result.GetResult<Prisma.$AgentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     messages<T extends Conversation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Conversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -4140,7 +4096,6 @@ export namespace Prisma {
    */
   interface ConversationFieldRefs {
     readonly id: FieldRef<"Conversation", 'String'>
-    readonly userId: FieldRef<"Conversation", 'String'>
     readonly agentId: FieldRef<"Conversation", 'String'>
     readonly createdAt: FieldRef<"Conversation", 'DateTime'>
     readonly updatedAt: FieldRef<"Conversation", 'DateTime'>
@@ -5673,6 +5628,7 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     username: 'username',
+    googleId: 'googleId',
     settings: 'settings',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -5696,7 +5652,6 @@ export namespace Prisma {
 
   export const ConversationScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
     agentId: 'agentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -5835,26 +5790,26 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: UuidFilter<"User"> | string
     email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     username?: StringFilter<"User"> | string
+    googleId?: StringNullableFilter<"User"> | string | null
     settings?: JsonNullableFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    conversations?: ConversationListRelationFilter
     agents?: AgentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
     role?: SortOrder
     username?: SortOrder
+    googleId?: SortOrderInput | SortOrder
     settings?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    conversations?: ConversationOrderByRelationAggregateInput
     agents?: AgentOrderByRelationAggregateInput
   }
 
@@ -5862,24 +5817,25 @@ export namespace Prisma {
     id?: string
     email?: string
     username?: string
+    googleId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     settings?: JsonNullableFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    conversations?: ConversationListRelationFilter
     agents?: AgentListRelationFilter
-  }, "id" | "email" | "username">
+  }, "id" | "email" | "username" | "googleId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
     role?: SortOrder
     username?: SortOrder
+    googleId?: SortOrderInput | SortOrder
     settings?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5894,9 +5850,10 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: StringWithAggregatesFilter<"User"> | string
     username?: StringWithAggregatesFilter<"User"> | string
+    googleId?: StringNullableWithAggregatesFilter<"User"> | string | null
     settings?: JsonNullableWithAggregatesFilter<"User">
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -5975,22 +5932,18 @@ export namespace Prisma {
     OR?: ConversationWhereInput[]
     NOT?: ConversationWhereInput | ConversationWhereInput[]
     id?: UuidFilter<"Conversation"> | string
-    userId?: UuidFilter<"Conversation"> | string
     agentId?: UuidFilter<"Conversation"> | string
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     agent?: XOR<AgentScalarRelationFilter, AgentWhereInput>
     messages?: MessageListRelationFilter
   }
 
   export type ConversationOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
     agentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     agent?: AgentOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
   }
@@ -6000,18 +5953,15 @@ export namespace Prisma {
     AND?: ConversationWhereInput | ConversationWhereInput[]
     OR?: ConversationWhereInput[]
     NOT?: ConversationWhereInput | ConversationWhereInput[]
-    userId?: UuidFilter<"Conversation"> | string
     agentId?: UuidFilter<"Conversation"> | string
     createdAt?: DateTimeFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     agent?: XOR<AgentScalarRelationFilter, AgentWhereInput>
     messages?: MessageListRelationFilter
   }, "id">
 
   export type ConversationOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
     agentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6025,7 +5975,6 @@ export namespace Prisma {
     OR?: ConversationScalarWhereWithAggregatesInput[]
     NOT?: ConversationScalarWhereWithAggregatesInput | ConversationScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Conversation"> | string
-    userId?: UuidWithAggregatesFilter<"Conversation"> | string
     agentId?: UuidWithAggregatesFilter<"Conversation"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Conversation"> | Date | string
@@ -6094,61 +6043,62 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     email: string
-    password: string
+    password?: string | null
     role?: string
     username: string
+    googleId?: string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    conversations?: ConversationCreateNestedManyWithoutUserInput
     agents?: AgentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
     email: string
-    password: string
+    password?: string | null
     role?: string
     username: string
+    googleId?: string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
     agents?: AgentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    conversations?: ConversationUpdateManyWithoutUserNestedInput
     agents?: AgentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
     agents?: AgentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
     email: string
-    password: string
+    password?: string | null
     role?: string
     username: string
+    googleId?: string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6157,9 +6107,10 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6168,9 +6119,10 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6253,14 +6205,12 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutConversationsInput
     agent: AgentCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
   }
 
   export type ConversationUncheckedCreateInput = {
     id?: string
-    userId: string
     agentId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6271,14 +6221,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutConversationsNestedInput
     agent?: AgentUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
   }
 
   export type ConversationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     agentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6287,7 +6235,6 @@ export namespace Prisma {
 
   export type ConversationCreateManyInput = {
     id?: string
-    userId: string
     agentId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6301,7 +6248,6 @@ export namespace Prisma {
 
   export type ConversationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     agentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6395,6 +6341,21 @@ export namespace Prisma {
     mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
   }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -6430,12 +6391,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type ConversationListRelationFilter = {
-    every?: ConversationWhereInput
-    some?: ConversationWhereInput
-    none?: ConversationWhereInput
-  }
-
   export type AgentListRelationFilter = {
     every?: AgentWhereInput
     some?: AgentWhereInput
@@ -6445,10 +6400,6 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
-  }
-
-  export type ConversationOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type AgentOrderByRelationAggregateInput = {
@@ -6461,6 +6412,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     username?: SortOrder
+    googleId?: SortOrder
     settings?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6472,6 +6424,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     username?: SortOrder
+    googleId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6482,6 +6435,7 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     username?: SortOrder
+    googleId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6517,6 +6471,24 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -6559,24 +6531,19 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type ConversationListRelationFilter = {
+    every?: ConversationWhereInput
+    some?: ConversationWhereInput
+    none?: ConversationWhereInput
+  }
+
+  export type ConversationOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type AgentCountOrderByAggregateInput = {
@@ -6607,24 +6574,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type AgentScalarRelationFilter = {
     is?: AgentWhereInput
     isNot?: AgentWhereInput
@@ -6642,7 +6591,6 @@ export namespace Prisma {
 
   export type ConversationCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     agentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6650,7 +6598,6 @@ export namespace Prisma {
 
   export type ConversationMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     agentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6658,7 +6605,6 @@ export namespace Prisma {
 
   export type ConversationMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     agentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6709,25 +6655,11 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type ConversationCreateNestedManyWithoutUserInput = {
-    create?: XOR<ConversationCreateWithoutUserInput, ConversationUncheckedCreateWithoutUserInput> | ConversationCreateWithoutUserInput[] | ConversationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ConversationCreateOrConnectWithoutUserInput | ConversationCreateOrConnectWithoutUserInput[]
-    createMany?: ConversationCreateManyUserInputEnvelope
-    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-  }
-
   export type AgentCreateNestedManyWithoutUserInput = {
     create?: XOR<AgentCreateWithoutUserInput, AgentUncheckedCreateWithoutUserInput> | AgentCreateWithoutUserInput[] | AgentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AgentCreateOrConnectWithoutUserInput | AgentCreateOrConnectWithoutUserInput[]
     createMany?: AgentCreateManyUserInputEnvelope
     connect?: AgentWhereUniqueInput | AgentWhereUniqueInput[]
-  }
-
-  export type ConversationUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<ConversationCreateWithoutUserInput, ConversationUncheckedCreateWithoutUserInput> | ConversationCreateWithoutUserInput[] | ConversationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ConversationCreateOrConnectWithoutUserInput | ConversationCreateOrConnectWithoutUserInput[]
-    createMany?: ConversationCreateManyUserInputEnvelope
-    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
   export type AgentUncheckedCreateNestedManyWithoutUserInput = {
@@ -6741,22 +6673,12 @@ export namespace Prisma {
     set?: string
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
-  export type ConversationUpdateManyWithoutUserNestedInput = {
-    create?: XOR<ConversationCreateWithoutUserInput, ConversationUncheckedCreateWithoutUserInput> | ConversationCreateWithoutUserInput[] | ConversationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ConversationCreateOrConnectWithoutUserInput | ConversationCreateOrConnectWithoutUserInput[]
-    upsert?: ConversationUpsertWithWhereUniqueWithoutUserInput | ConversationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: ConversationCreateManyUserInputEnvelope
-    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    update?: ConversationUpdateWithWhereUniqueWithoutUserInput | ConversationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: ConversationUpdateManyWithWhereWithoutUserInput | ConversationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type AgentUpdateManyWithoutUserNestedInput = {
@@ -6771,20 +6693,6 @@ export namespace Prisma {
     update?: AgentUpdateWithWhereUniqueWithoutUserInput | AgentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AgentUpdateManyWithWhereWithoutUserInput | AgentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AgentScalarWhereInput | AgentScalarWhereInput[]
-  }
-
-  export type ConversationUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<ConversationCreateWithoutUserInput, ConversationUncheckedCreateWithoutUserInput> | ConversationCreateWithoutUserInput[] | ConversationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ConversationCreateOrConnectWithoutUserInput | ConversationCreateOrConnectWithoutUserInput[]
-    upsert?: ConversationUpsertWithWhereUniqueWithoutUserInput | ConversationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: ConversationCreateManyUserInputEnvelope
-    set?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    disconnect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    delete?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-    update?: ConversationUpdateWithWhereUniqueWithoutUserInput | ConversationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: ConversationUpdateManyWithWhereWithoutUserInput | ConversationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
   export type AgentUncheckedUpdateManyWithoutUserNestedInput = {
@@ -6819,10 +6727,6 @@ export namespace Prisma {
     connectOrCreate?: ConversationCreateOrConnectWithoutAgentInput | ConversationCreateOrConnectWithoutAgentInput[]
     createMany?: ConversationCreateManyAgentInputEnvelope
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type UserUpdateOneRequiredWithoutAgentsNestedInput = {
@@ -6861,12 +6765,6 @@ export namespace Prisma {
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutConversationsInput = {
-    create?: XOR<UserCreateWithoutConversationsInput, UserUncheckedCreateWithoutConversationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutConversationsInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type AgentCreateNestedOneWithoutConversationsInput = {
     create?: XOR<AgentCreateWithoutConversationsInput, AgentUncheckedCreateWithoutConversationsInput>
     connectOrCreate?: AgentCreateOrConnectWithoutConversationsInput
@@ -6885,14 +6783,6 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutConversationInput | MessageCreateOrConnectWithoutConversationInput[]
     createMany?: MessageCreateManyConversationInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
-  }
-
-  export type UserUpdateOneRequiredWithoutConversationsNestedInput = {
-    create?: XOR<UserCreateWithoutConversationsInput, UserUncheckedCreateWithoutConversationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutConversationsInput
-    upsert?: UserUpsertWithoutConversationsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConversationsInput, UserUpdateWithoutConversationsInput>, UserUncheckedUpdateWithoutConversationsInput>
   }
 
   export type AgentUpdateOneRequiredWithoutConversationsNestedInput = {
@@ -6974,6 +6864,20 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -7027,6 +6931,23 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type NestedIntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -7075,37 +6996,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -7117,32 +7007,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type ConversationCreateWithoutUserInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    agent: AgentCreateNestedOneWithoutConversationsInput
-    messages?: MessageCreateNestedManyWithoutConversationInput
-  }
-
-  export type ConversationUncheckedCreateWithoutUserInput = {
-    id?: string
-    agentId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
-  }
-
-  export type ConversationCreateOrConnectWithoutUserInput = {
-    where: ConversationWhereUniqueInput
-    create: XOR<ConversationCreateWithoutUserInput, ConversationUncheckedCreateWithoutUserInput>
-  }
-
-  export type ConversationCreateManyUserInputEnvelope = {
-    data: ConversationCreateManyUserInput | ConversationCreateManyUserInput[]
-    skipDuplicates?: boolean
   }
 
   export type AgentCreateWithoutUserInput = {
@@ -7173,33 +7037,6 @@ export namespace Prisma {
   export type AgentCreateManyUserInputEnvelope = {
     data: AgentCreateManyUserInput | AgentCreateManyUserInput[]
     skipDuplicates?: boolean
-  }
-
-  export type ConversationUpsertWithWhereUniqueWithoutUserInput = {
-    where: ConversationWhereUniqueInput
-    update: XOR<ConversationUpdateWithoutUserInput, ConversationUncheckedUpdateWithoutUserInput>
-    create: XOR<ConversationCreateWithoutUserInput, ConversationUncheckedCreateWithoutUserInput>
-  }
-
-  export type ConversationUpdateWithWhereUniqueWithoutUserInput = {
-    where: ConversationWhereUniqueInput
-    data: XOR<ConversationUpdateWithoutUserInput, ConversationUncheckedUpdateWithoutUserInput>
-  }
-
-  export type ConversationUpdateManyWithWhereWithoutUserInput = {
-    where: ConversationScalarWhereInput
-    data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type ConversationScalarWhereInput = {
-    AND?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
-    OR?: ConversationScalarWhereInput[]
-    NOT?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
-    id?: UuidFilter<"Conversation"> | string
-    userId?: UuidFilter<"Conversation"> | string
-    agentId?: UuidFilter<"Conversation"> | string
-    createdAt?: DateTimeFilter<"Conversation"> | Date | string
-    updatedAt?: DateTimeFilter<"Conversation"> | Date | string
   }
 
   export type AgentUpsertWithWhereUniqueWithoutUserInput = {
@@ -7234,25 +7071,25 @@ export namespace Prisma {
   export type UserCreateWithoutAgentsInput = {
     id?: string
     email: string
-    password: string
+    password?: string | null
     role?: string
     username: string
+    googleId?: string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    conversations?: ConversationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAgentsInput = {
     id?: string
     email: string
-    password: string
+    password?: string | null
     role?: string
     username: string
+    googleId?: string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    conversations?: ConversationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAgentsInput = {
@@ -7264,13 +7101,11 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutConversationsInput
     messages?: MessageCreateNestedManyWithoutConversationInput
   }
 
   export type ConversationUncheckedCreateWithoutAgentInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutConversationInput
@@ -7300,25 +7135,25 @@ export namespace Prisma {
   export type UserUpdateWithoutAgentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    conversations?: ConversationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    conversations?: ConversationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ConversationUpsertWithWhereUniqueWithoutAgentInput = {
@@ -7337,33 +7172,14 @@ export namespace Prisma {
     data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutAgentInput>
   }
 
-  export type UserCreateWithoutConversationsInput = {
-    id?: string
-    email: string
-    password: string
-    role?: string
-    username: string
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    agents?: AgentCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutConversationsInput = {
-    id?: string
-    email: string
-    password: string
-    role?: string
-    username: string
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    agents?: AgentUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutConversationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutConversationsInput, UserUncheckedCreateWithoutConversationsInput>
+  export type ConversationScalarWhereInput = {
+    AND?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+    OR?: ConversationScalarWhereInput[]
+    NOT?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+    id?: UuidFilter<"Conversation"> | string
+    agentId?: UuidFilter<"Conversation"> | string
+    createdAt?: DateTimeFilter<"Conversation"> | Date | string
+    updatedAt?: DateTimeFilter<"Conversation"> | Date | string
   }
 
   export type AgentCreateWithoutConversationsInput = {
@@ -7415,41 +7231,6 @@ export namespace Prisma {
   export type MessageCreateManyConversationInputEnvelope = {
     data: MessageCreateManyConversationInput | MessageCreateManyConversationInput[]
     skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutConversationsInput = {
-    update: XOR<UserUpdateWithoutConversationsInput, UserUncheckedUpdateWithoutConversationsInput>
-    create: XOR<UserCreateWithoutConversationsInput, UserUncheckedCreateWithoutConversationsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutConversationsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutConversationsInput, UserUncheckedUpdateWithoutConversationsInput>
-  }
-
-  export type UserUpdateWithoutConversationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agents?: AgentUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutConversationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    settings?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agents?: AgentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AgentUpsertWithoutConversationsInput = {
@@ -7515,13 +7296,11 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutConversationsInput
     agent: AgentCreateNestedOneWithoutConversationsInput
   }
 
   export type ConversationUncheckedCreateWithoutMessagesInput = {
     id?: string
-    userId: string
     agentId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7547,23 +7326,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutConversationsNestedInput
     agent?: AgentUpdateOneRequiredWithoutConversationsNestedInput
   }
 
   export type ConversationUncheckedUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     agentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ConversationCreateManyUserInput = {
-    id?: string
-    agentId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type AgentCreateManyUserInput = {
@@ -7573,29 +7343,6 @@ export namespace Prisma {
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type ConversationUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    agent?: AgentUpdateOneRequiredWithoutConversationsNestedInput
-    messages?: MessageUpdateManyWithoutConversationNestedInput
-  }
-
-  export type ConversationUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    agentId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
-  }
-
-  export type ConversationUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    agentId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AgentUpdateWithoutUserInput = {
@@ -7629,7 +7376,6 @@ export namespace Prisma {
 
   export type ConversationCreateManyAgentInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7638,13 +7384,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutConversationsNestedInput
     messages?: MessageUpdateManyWithoutConversationNestedInput
   }
 
   export type ConversationUncheckedUpdateWithoutAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutConversationNestedInput
@@ -7652,7 +7396,6 @@ export namespace Prisma {
 
   export type ConversationUncheckedUpdateManyWithoutAgentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
