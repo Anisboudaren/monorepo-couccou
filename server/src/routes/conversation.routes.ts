@@ -61,7 +61,7 @@ router.get("/agent/:agentId", ConversationController.getConversationsByAgent);
  *     summary: Update a conversation by ID
  *     tags: [Conversation]
  */
-router.put("/:id", ConversationController.updateConversation);
+router.put("/:id/history", ConversationController.updateConversation);
 
 /**
  * @swagger
@@ -79,7 +79,7 @@ router.delete("/:id", ConversationController.deleteConversation);
  *     summary: Initiate a conversation
  *     tags: [Conversation]
  */
-router.post("/initiate", ConversationController.initiateConversationController);
+router.post("/init", ConversationController.initiateConversationController);
 
 /**
  * @swagger
@@ -117,6 +117,51 @@ router.post("/initiate", ConversationController.initiateConversationController);
  */
 router.post("/addMessage", ConversationController.addMessageToConversationController);
 
+
 router.post("/getAgentResponse", ConversationController.handleAgentReply);
 
+/**
+ * @swagger
+ * /conversation/{id}/send:
+ *   post:
+ *     summary: Send a message to the agent and receive the agent's response (used by the chat frontend)
+ *     tags: [Conversation]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Conversation ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: The message content to send to the agent
+ *             required:
+ *               - message
+ *     responses:
+ *       200:
+ *         description: Agent response to the sent message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 agentResponse:
+ *                   type: string
+ *                   description: The agent's reply message
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Conversation not found
+ */
+router.post("/send", ConversationController.sendMessageController);
+
+router.get("/:id/history" , ConversationController.getConversationHistoryController)
 export default router;

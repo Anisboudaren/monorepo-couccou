@@ -126,14 +126,7 @@ router.put("/:id", AgentController.updateAgent);
  */
 router.delete("/:id", AgentController.deleteAgent);
 
-/**
- * @swagger
- * tags:
- *   name: User
- *   description: User management
- */
-
-// Existing routes...
+router.post("/:id/build" , AgentController.buildAgent )
 
 
 export default router;

@@ -134,3 +134,27 @@ export const deleteAgent = async (req: Request, res: Response) => {
         });
     }
 };
+
+// Build Agent 
+export const buildAgent = async (req: Request, res: Response) => {
+  try {
+    const agentId = req.params.id;
+    const buildData = req.body;
+
+    const updatedAgent = await AgentServices.buildAgent(agentId, buildData);
+
+    res.status(200).json({
+      success: true,
+      message: 'Agent built successfully',
+      data: updatedAgent,
+      error: null,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: 'Building agent failed',
+      data: null,
+      error: error.message,
+    });
+  }
+};

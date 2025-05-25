@@ -50,3 +50,32 @@ export const deleteAgent = async (id: string) => {
     });
     return true;
 };
+
+
+
+export const buildAgent = async (id: string, buildData: any) => {
+  const generatedPrompt = buildData.customPrompt ?? generatePrompt(buildData);
+  console.log(generatePrompt);
+    
+  const updatedAgent = await prisma.agent.update({
+    where: { id },
+    data: {
+      settings: {
+        ...buildData,
+        prompt: generatedPrompt,
+      },
+    },
+  });
+
+  if (!updatedAgent) {
+    throw new Error('Agent not found');
+  }
+
+  return updatedAgent;
+};
+
+function generatePrompt(data: any): string {
+  return `You are ${data.aiName}, a ${data.primaryTraits?.join(', ')} assistant. Your tone is ${data.communicationTone}, and you respond with a formality level of ${data.formalityLevel}. Your primary function is ${data.primaryFunction}. Company info: ${data.companyInformation}. Rules: ${data.rules}.`;
+}
+
+

@@ -197,3 +197,69 @@ export const handleAgentReply = async (req: Request, res: Response) => {
 
  
 };
+
+export const sendMessageController = async (req: Request, res: Response) => {
+  const { conversationId, message } = req.body;
+
+  if (!conversationId || !message) {
+     res.status(400).json({ error: "conversationId and message are required" });
+  }
+  else {
+try {
+    // 1. Save user message to DB
+    const userMessage = await prisma.message.create({
+      data: {
+        conversationId,
+        isFromAgent: false,
+        message,
+      },
+    });
+
+    // 2. Get agent's reply from DeepSeek
+    const reply = await getAgentResponseFromDeepSeek({ conversationId });
+
+    console.log("let's save the reply in the db ")
+    // 3. Save agent message to DB
+    const agentMessage = await prisma.message.create({
+      data: {
+        conversationId,
+        isFromAgent: true,
+        message: reply,
+      },
+    });
+console.log("and send it back ")
+    // 4. Return both messages to client
+    res.status(200).json({
+      success: true,
+      userMessage,
+      agentMessage,
+    });
+  } catch (error: any) {
+    console.error("sendMessageController error:", error);
+    res.status(500).json({ error: "Failed to send and process message." });
+  }
+  }
+  
+};
+
+
+export const getConversationHistoryController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const history = await ConversationServices.getConversationHistory(id);
+    res.status(200).json({
+      success: true,
+      message: "Conversation history retrieved successfully",
+      length : history.length ,
+      data: history,
+      error: null,
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: "Failed to retrieve conversation history",
+      data: null,
+      error: error.message,
+    });
+  }
+};

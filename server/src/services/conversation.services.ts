@@ -125,3 +125,12 @@ export const addMessageToConversation = async ({
   };
 };
 
+
+export const getConversationHistory = async (conversationId: string) => {
+  const messages = await prisma.message.findMany({
+    where: { conversationId },
+    orderBy: { createdAt: "desc" },
+  });
+  return messages;
+};
+
