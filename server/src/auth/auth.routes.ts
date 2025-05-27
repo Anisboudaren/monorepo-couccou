@@ -17,7 +17,7 @@ router.get(
   (req, res) => {
     const user = req.user;
     if (!user) {
-      return res.redirect("http://localhost:3000/v1/login?error=unauthorized");
+      return res.redirect(`${process.env.FRONTEND_URL}/v1/login?error=unauthorized`);
     }
 
     // Sign JWT with user ID
@@ -33,7 +33,7 @@ router.get(
     });
 
     // Redirect to dashboard
-    res.redirect("http://localhost:3000/v1/dashboard");
+    res.redirect(`${process.env.FRONTEND_URL}/v1/dashboard`);
   }
 );
 
