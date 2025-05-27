@@ -7,11 +7,11 @@ const router = express.Router();
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 import jwt from "jsonwebtoken";
-
+const isProduction = process.env.NODE_ENV === "production"
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/v1/login/failed",
+    failureRedirect: `${process.env.FRONTEND_URL}/v1/login?error=unauthorized`,
     session: false,
   }),
   (req, res) => {
@@ -27,9 +27,10 @@ router.get(
 
     // Set token as cookie
     res.cookie("token", token, {
+      path : '/',
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax"
     });
 
     // Redirect to dashboard

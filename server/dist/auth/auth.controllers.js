@@ -17,6 +17,7 @@ exports.logout = logout;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const prisma_utils_1 = __importDefault(require("../utils/prisma.utils"));
+const isProduction = process.env.NODE_ENV === "production";
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, password } = req.body;
@@ -30,8 +31,8 @@ function login(req, res) {
             console.log(token);
             res.cookie("token", token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "lax"
+                secure: isProduction,
+                sameSite: isProduction ? "none" : "lax"
             });
             res.json({ message: "Logged in", token });
         }
@@ -42,8 +43,8 @@ function logout(req, res) {
     console.log("Cookies before clearing:", req.headers.authorization);
     res.clearCookie("token", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax"
     });
     res.json({ message: "Logged out successfully" });
 }

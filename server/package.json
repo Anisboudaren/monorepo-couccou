@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "prisma generate && npm run build",
-
     "dev": "ts-node src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"

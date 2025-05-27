@@ -16,8 +16,7 @@ const app = express();
 
 app.use(cors({
      origin: [
-    'https://rag-chat-widget-test.vercel.app',
-    'https://eclaire-dor.devlly.net',
+    'https://coucou-client.vercel.app',
     'http://localhost:3000' // local frontend
   ],
     methods: ['GET', 'POST', 'OPTIONS' , 'DELETE'],

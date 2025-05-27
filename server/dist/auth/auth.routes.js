@@ -15,7 +15,7 @@ router.get("/google/callback", passport_1.default.authenticate("google", {
 }), (req, res) => {
     const user = req.user;
     if (!user) {
-        return res.redirect("http://localhost:3000/v1/login?error=unauthorized");
+        return res.redirect(`${process.env.FRONTEND_URL}/v1/login?error=unauthorized`);
     }
     // Sign JWT with user ID
     const token = jsonwebtoken_1.default.sign({ id: user.id || user._id }, process.env.JWT_SECRET, {
@@ -28,7 +28,7 @@ router.get("/google/callback", passport_1.default.authenticate("google", {
         sameSite: "lax",
     });
     // Redirect to dashboard
-    res.redirect("http://localhost:3000/v1/dashboard");
+    res.redirect(`${process.env.FRONTEND_URL}/v1/dashboard`);
 });
 router.post("/login", auth_controllers_1.login);
 router.get("/logout", auth_controllers_1.logout);
