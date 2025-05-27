@@ -14,22 +14,11 @@ import "./auth/passport";
 const isProduction = process.env.NODE_ENV === "production"
 const app = express();
 
-const allowedOrigins = [
-  'https://coucou-client.vercel.app',
-  'http://localhost:3000'
-];
+
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin like curl or Postman
-    if (!origin || allowedOrigins.includes(origin)) {
-       callback(null, true);
-    }
-     callback(new Error('Not allowed by CORS'));
-  },
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  origin: ['http://localhost:3000', 'https://coucou-client.vercel.app'],
+  credentials: true,
 }));
 
 app.use(express.json());
