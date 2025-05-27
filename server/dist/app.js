@@ -23,16 +23,24 @@ const session_1 = require("./utils/session");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv_1.default.config();
 require("./auth/passport");
+const isProduction = process.env.NODE_ENV === "production";
 const app = (0, express_1.default)();
+const allowedOrigins = [
+    'http://localhost:3000', // dev frontend
+    'https://coucou-client.vercel.app', // prod frontend
+];
 app.use((0, cors_1.default)({
-    origin: [
-        'https://rag-chat-widget-test.vercel.app',
-        'https://eclaire-dor.devlly.net',
-        'http://localhost:3000' // local frontend
-    ],
-    methods: ['GET', 'POST', 'OPTIONS', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+    origin: function (origin, callback) {
+        console.log("🌐 Request Origin:", origin);
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            console.warn("❌ CORS blocked for origin:", origin);
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
 }));
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));

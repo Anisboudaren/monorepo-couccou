@@ -9,8 +9,9 @@ const auth_controllers_1 = require("./auth.controllers");
 const router = express_1.default.Router();
 router.get("/google", passport_1.default.authenticate("google", { scope: ["profile", "email"] }));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const isProduction = process.env.NODE_ENV === "production";
 router.get("/google/callback", passport_1.default.authenticate("google", {
-    failureRedirect: "/v1/login/failed",
+    failureRedirect: `${process.env.FRONTEND_URL}/v1/login?error=unauthorized`,
     session: false,
 }), (req, res) => {
     const user = req.user;
@@ -23,9 +24,10 @@ router.get("/google/callback", passport_1.default.authenticate("google", {
     });
     // Set token as cookie
     res.cookie("token", token, {
+        path: '/',
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax"
     });
     // Redirect to dashboard
     res.redirect(`${process.env.FRONTEND_URL}/v1/dashboard`);
