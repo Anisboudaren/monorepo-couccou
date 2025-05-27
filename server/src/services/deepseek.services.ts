@@ -77,11 +77,14 @@ console.log("the final prompt : " , systemPrompt)
     ...formattedMessages,
   ];
 
+  console.log(settings.model)
   // 5. Call DeepSeek API
-  const response = await axios.post(
+let response;
+try {
+  response = await axios.post(
     "https://api.deepseek.com/v1/chat/completions",
     {
-      model: settings.model || "deepseek-chat",
+      model: "deepseek-chat",
       messages: deepseekMessages,
     },
     {
@@ -91,6 +94,11 @@ console.log("the final prompt : " , systemPrompt)
       },
     }
   );
+} catch (error: any) {
+  console.error("DeepSeek API Error:", error?.response?.data || error.message);
+  throw new Error("Failed to get response from DeepSeek API");
+}
+
   // 6. Return the reply
   const reply = response.data?.choices?.[0]?.message?.content;
   console.log("and here is the deep seek response " , reply)
