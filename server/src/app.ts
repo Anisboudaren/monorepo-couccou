@@ -16,10 +16,24 @@ const app = express();
 
 
 
+const allowedOrigins = [
+  'http://localhost:3000',                   // dev frontend
+  'https://coucou-client.vercel.app',        // prod frontend
+];
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://coucou-client.vercel.app'],
+  origin: function (origin, callback) {
+    console.log("🌐 Request Origin:", origin);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn("❌ CORS blocked for origin:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
+
 
 app.use(express.json());
 app.use(morgan("dev"));

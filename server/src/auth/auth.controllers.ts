@@ -5,26 +5,46 @@ import { Request, Response } from "express";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+
 export async function login(req: Request, res: Response) {
   const { email, password } = req.body;
-  console.log("Login request received:", req.body);
-  
-  const user = await prisma.user.findUnique({ where: { email } });
+  console.log("🔐 Login request received:", { email });
 
-  if (!user || !user.password || !await bcrypt.compare(password, user.password)) {
-     res.status(401).json({ error: "Invalid credentials" });
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user || !user.password || !(await bcrypt.compare(password, user.password))) {
+      console.log("❌ Invalid credentials");
+       res.status(401).json({ error: "Invalid credentials" });
+    } else {
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: "1d" });
+
+    console.log("✅ Token generated:", token);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: "/",
+    });
+
+    console.log("🍪 Cookie set:", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+    });
+
+    res.status(200).json({ message: "Logged in", token });
+    }
+
+   
+  } catch (err) {
+    console.error("🔥 Login server error:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
-else {
-const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: "1d" });
-console.log(token)
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? "none" : "lax"
-  });
-  res.json({ message: "Logged in", token });
-}
-  
 }
 
 export function logout(req: Request, res: Response) {
