@@ -29,8 +29,9 @@ router.get(
     res.cookie("token", token, {
       path : '/',
       httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax"
+      secure: false,
+      sameSite: isProduction ? "none" : "lax" ,
+      domain: ".vercel.app"
     });
 
     // Redirect to dashboard

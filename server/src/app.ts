@@ -15,7 +15,7 @@ import "./auth/passport";
 const isProduction = process.env.NODE_ENV === "production"
 const app = express();
 
-
+isProduction ? app.set("trust proxy", 1) : "";
 
 const allowedOrigins = [
   'http://localhost:3000',                   // dev frontend
