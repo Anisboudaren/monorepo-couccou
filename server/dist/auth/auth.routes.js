@@ -26,8 +26,9 @@ router.get("/google/callback", passport_1.default.authenticate("google", {
     res.cookie("token", token, {
         path: '/',
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax"
+        secure: false,
+        sameSite: isProduction ? "none" : "lax",
+        domain: ".vercel.app"
     });
     // Redirect to dashboard
     res.redirect(`${process.env.FRONTEND_URL}/v1/dashboard`);

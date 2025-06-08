@@ -19,7 +19,7 @@ isProduction ? app.set("trust proxy", 1) : "";
 
 const allowedOrigins = [
   'http://localhost:3000',                   // dev frontend
-  'https://coucou-client.vercel.app',        // prod frontend
+  'https://coucou-client.devlly.site',        // prod frontend
 ];
 
 app.use(cors({

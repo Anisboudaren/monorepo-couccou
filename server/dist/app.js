@@ -25,6 +25,7 @@ dotenv_1.default.config();
 require("./auth/passport");
 const isProduction = process.env.NODE_ENV === "production";
 const app = (0, express_1.default)();
+isProduction ? app.set("trust proxy", 1) : "";
 const allowedOrigins = [
     'http://localhost:3000', // dev frontend
     'https://coucou-client.vercel.app', // prod frontend
