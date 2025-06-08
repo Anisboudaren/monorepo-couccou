@@ -5,6 +5,8 @@ interface CreateAgentInput {
     name: string;
     description?: string;
     settings?: any;
+    language: string ,
+    template: string 
 }
 
 interface UpdateAgentInput {

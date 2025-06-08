@@ -2367,6 +2367,8 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     description: string | null
+    language: string | null
+    template: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2376,6 +2378,8 @@ export namespace Prisma {
     userId: string | null
     name: string | null
     description: string | null
+    language: string | null
+    template: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2385,6 +2389,8 @@ export namespace Prisma {
     userId: number
     name: number
     description: number
+    language: number
+    template: number
     settings: number
     createdAt: number
     updatedAt: number
@@ -2397,6 +2403,8 @@ export namespace Prisma {
     userId?: true
     name?: true
     description?: true
+    language?: true
+    template?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2406,6 +2414,8 @@ export namespace Prisma {
     userId?: true
     name?: true
     description?: true
+    language?: true
+    template?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2415,6 +2425,8 @@ export namespace Prisma {
     userId?: true
     name?: true
     description?: true
+    language?: true
+    template?: true
     settings?: true
     createdAt?: true
     updatedAt?: true
@@ -2498,6 +2510,8 @@ export namespace Prisma {
     userId: string
     name: string
     description: string | null
+    language: string
+    template: string
     settings: JsonValue | null
     createdAt: Date
     updatedAt: Date
@@ -2525,6 +2539,8 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     description?: boolean
+    language?: boolean
+    template?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2538,6 +2554,8 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     description?: boolean
+    language?: boolean
+    template?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2549,6 +2567,8 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     description?: boolean
+    language?: boolean
+    template?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2560,12 +2580,14 @@ export namespace Prisma {
     userId?: boolean
     name?: boolean
     description?: boolean
+    language?: boolean
+    template?: boolean
     settings?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AgentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "description" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["agent"]>
+  export type AgentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "description" | "language" | "template" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["agent"]>
   export type AgentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     conversations?: boolean | Agent$conversationsArgs<ExtArgs>
@@ -2589,6 +2611,8 @@ export namespace Prisma {
       userId: string
       name: string
       description: string | null
+      language: string
+      template: string
       settings: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
@@ -3021,6 +3045,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"Agent", 'String'>
     readonly name: FieldRef<"Agent", 'String'>
     readonly description: FieldRef<"Agent", 'String'>
+    readonly language: FieldRef<"Agent", 'String'>
+    readonly template: FieldRef<"Agent", 'String'>
     readonly settings: FieldRef<"Agent", 'Json'>
     readonly createdAt: FieldRef<"Agent", 'DateTime'>
     readonly updatedAt: FieldRef<"Agent", 'DateTime'>
@@ -5642,6 +5668,8 @@ export namespace Prisma {
     userId: 'userId',
     name: 'name',
     description: 'description',
+    language: 'language',
+    template: 'template',
     settings: 'settings',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -5867,6 +5895,8 @@ export namespace Prisma {
     userId?: UuidFilter<"Agent"> | string
     name?: StringFilter<"Agent"> | string
     description?: StringNullableFilter<"Agent"> | string | null
+    language?: StringFilter<"Agent"> | string
+    template?: StringFilter<"Agent"> | string
     settings?: JsonNullableFilter<"Agent">
     createdAt?: DateTimeFilter<"Agent"> | Date | string
     updatedAt?: DateTimeFilter<"Agent"> | Date | string
@@ -5879,6 +5909,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    language?: SortOrder
+    template?: SortOrder
     settings?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5894,6 +5926,8 @@ export namespace Prisma {
     userId?: UuidFilter<"Agent"> | string
     name?: StringFilter<"Agent"> | string
     description?: StringNullableFilter<"Agent"> | string | null
+    language?: StringFilter<"Agent"> | string
+    template?: StringFilter<"Agent"> | string
     settings?: JsonNullableFilter<"Agent">
     createdAt?: DateTimeFilter<"Agent"> | Date | string
     updatedAt?: DateTimeFilter<"Agent"> | Date | string
@@ -5906,6 +5940,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    language?: SortOrder
+    template?: SortOrder
     settings?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5922,6 +5958,8 @@ export namespace Prisma {
     userId?: UuidWithAggregatesFilter<"Agent"> | string
     name?: StringWithAggregatesFilter<"Agent"> | string
     description?: StringNullableWithAggregatesFilter<"Agent"> | string | null
+    language?: StringWithAggregatesFilter<"Agent"> | string
+    template?: StringWithAggregatesFilter<"Agent"> | string
     settings?: JsonNullableWithAggregatesFilter<"Agent">
     createdAt?: DateTimeWithAggregatesFilter<"Agent"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Agent"> | Date | string
@@ -6132,6 +6170,8 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6144,6 +6184,8 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6154,6 +6196,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6166,6 +6210,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6177,6 +6223,8 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6186,6 +6234,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6196,6 +6246,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6551,6 +6603,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    language?: SortOrder
+    template?: SortOrder
     settings?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6561,6 +6615,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    language?: SortOrder
+    template?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6570,6 +6626,8 @@ export namespace Prisma {
     userId?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    language?: SortOrder
+    template?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7013,6 +7071,8 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7023,6 +7083,8 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7063,6 +7125,8 @@ export namespace Prisma {
     userId?: UuidFilter<"Agent"> | string
     name?: StringFilter<"Agent"> | string
     description?: StringNullableFilter<"Agent"> | string | null
+    language?: StringFilter<"Agent"> | string
+    template?: StringFilter<"Agent"> | string
     settings?: JsonNullableFilter<"Agent">
     createdAt?: DateTimeFilter<"Agent"> | Date | string
     updatedAt?: DateTimeFilter<"Agent"> | Date | string
@@ -7186,6 +7250,8 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7197,6 +7263,8 @@ export namespace Prisma {
     userId: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7248,6 +7316,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7259,6 +7329,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7340,6 +7412,8 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    language: string
+    template: string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7349,6 +7423,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7359,6 +7435,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7369,6 +7447,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    template?: StringFieldUpdateOperationsInput | string
     settings?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

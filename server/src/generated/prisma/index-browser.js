@@ -134,6 +134,8 @@ exports.Prisma.AgentScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   description: 'description',
+  language: 'language',
+  template: 'template',
   settings: 'settings',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

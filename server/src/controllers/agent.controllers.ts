@@ -9,6 +9,8 @@ interface Agent {
     userId: string;
     name: string;
     description: string;
+    language: string;
+    template: string;
     settings: { [key: string]: any };
 }
 
@@ -16,12 +18,13 @@ interface Agent {
 export const createAgent = async (req: Request, res: Response) => {
     try {
         const user = req.user as CustomUser;
-        const { name, description, settings } = req.body as Agent;
+        const { name, description, language, template } = req.body as Agent;
         const agent = await AgentServices.createAgent({
             userId: user.id,
             name,
             description,
-            settings : settings || {},
+            language: language ,
+            template: template   
         });
         res.status(201).json({
             success: true,
@@ -98,6 +101,7 @@ export const getAllAgents = async (req: Request, res: Response) => {
 // Update Agent
 export const updateAgent = async (req: Request, res: Response) => {
     try {
+        
         const updatedAgent = await AgentServices.updateAgent(req.params.id, req.body);
         res.status(200).json({
             success: true,

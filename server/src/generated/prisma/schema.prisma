@@ -27,6 +27,8 @@ model Agent {
   user          User           @relation(fields: [userId], references: [id])
   name          String
   description   String?
+  language      String
+  template      String
   settings      Json?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
