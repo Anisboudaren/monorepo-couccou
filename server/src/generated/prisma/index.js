@@ -174,7 +174,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\src\\generated\\prisma",
+      "value": "d:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -188,7 +188,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\prisma\\schema.prisma",
+    "sourceFilePath": "d:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -202,11 +202,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://neondb_owner:npg_Hnu7s2iqwfkD@ep-yellow-frost-a4j3rfty-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
+        "value": null
       }
     }
   },

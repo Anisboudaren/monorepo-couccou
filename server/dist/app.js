@@ -28,7 +28,7 @@ const app = (0, express_1.default)();
 isProduction ? app.set("trust proxy", 1) : "";
 const allowedOrigins = [
     'http://localhost:3000', // dev frontend
-    'https://coucou-client.vercel.app', // prod frontend
+    'https://coucou-ai.devlly.site', // prod frontend
 ];
 app.use((0, cors_1.default)({
     origin: function (origin, callback) {

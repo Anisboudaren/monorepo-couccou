@@ -48,12 +48,13 @@ const AgentServices = __importStar(require("../services/agent.services"));
 const createAgent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = req.user;
-        const { name, description, settings } = req.body;
+        const { name, description, language, template } = req.body;
         const agent = yield AgentServices.createAgent({
             userId: user.id,
             name,
             description,
-            settings: settings || {},
+            language: language,
+            template: template
         });
         res.status(201).json({
             success: true,

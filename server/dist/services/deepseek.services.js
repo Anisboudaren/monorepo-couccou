@@ -36,10 +36,11 @@ const getAgentResponseFromDeepSeek = (_a) => __awaiter(void 0, [_a], void 0, fun
     }
     console.log(" setting up the agent settings as json");
     const settings = conversation.agent.settings; // assume settings is a JSON object
-    console.log("settigngs :", settings);
+    console.log("settings :", settings);
     // 3. Build a dynamic system prompt
     const systemPromptParts = [
         `You are ${settings.aiName || "an assistant"} for a company.`,
+        `You MUST always respond in this language: "${conversation.agent.language || "Arabic"}", no matter what the user says — even for greetings like "hi", "hello", or "thanks". Do not use English or any other language unless the user explicitly requests a different one.`,
         `Respond with a ${settings.communicationTone || "professional"} tone.`,
         `Use formality level ${(_b = settings.formalityLevel) !== null && _b !== void 0 ? _b : 2} (1=casual, 2=neutral, 3=formal).`,
         ((_c = settings.primaryTraits) === null || _c === void 0 ? void 0 : _c.length)
@@ -65,6 +66,10 @@ const getAgentResponseFromDeepSeek = (_a) => __awaiter(void 0, [_a], void 0, fun
         `Keep responses brief — 1 to 2 sentences max.`,
         `Do NOT say you're an AI.`,
         `Always be respectful and helpful.`,
+        // 👤 Optional human handoff logic
+        settings.allowHumanAgent
+            ? `If the user asks to speak with a real person, respond politely by asking for their name, email, and a short description of the issue. Then say: "Thank you. A human support agent will contact you soon. In the meantime, feel free to ask me anything else."`
+            : `If the user asks to speak with a human, explain that you're here to help and continue assisting them professionally.`,
     ].filter(Boolean); // removes null entries
     const systemPrompt = systemPromptParts.join(" ");
     console.log("the final prompt : ", systemPrompt);

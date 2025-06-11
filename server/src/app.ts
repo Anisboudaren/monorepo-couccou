@@ -83,6 +83,9 @@ import authenticateToken from "./utils/auth.middelware";
 import authRoutes from "./auth/auth.routes";
 app.use("/v1/auth", authRoutes);
 
+import scrapeRoutes from "./routes/scrape.routes"
+app.use('/v1/scrape', scrapeRoutes);
+
 import userRoutes from "./routes/user.routes";
 app.use("/v1/user", authenticateToken, userRoutes);
 

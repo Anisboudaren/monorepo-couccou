@@ -35,6 +35,8 @@ function login(req, res) {
                     httpOnly: true,
                     secure: isProduction,
                     sameSite: isProduction ? "none" : "lax",
+                    // make sure to remove this in devlpemnt
+                    domain: ".devlly.site",
                     maxAge: 24 * 60 * 60 * 1000, // 1 day
                     path: "/",
                 });
