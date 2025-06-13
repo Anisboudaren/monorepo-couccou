@@ -7,7 +7,11 @@ export interface ScrapeResultContent {
 }
 
 export const scrapeWebsiteContent = async (url: string): Promise<ScrapeResultContent> => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
+
 
   try {
     const page = await browser.newPage();
