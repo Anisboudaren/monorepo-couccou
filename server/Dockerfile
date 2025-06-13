@@ -19,6 +19,10 @@ RUN apt-get update && apt-get install -y \
   libxdamage1 \
   libxrandr2 \
   xdg-utils \
+  libgbm1 \
+  libxshmfence1 \
+  libpangocairo-1.0-0 \
+  libgtk-3-0 \
   --no-install-recommends \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
