@@ -4,26 +4,20 @@ FROM node:18
 # Set working directory
 WORKDIR /app
 
-# Copy dependency files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy entire project
+# Copy all project files first (you need prisma/schema.prisma *before* npm install)
 COPY . .
 
-# Generate Prisma client (make sure `prisma.schema` is copied already)
-RUN npx prisma generate
+# Now install dependencies safely
+RUN npm install
+
+# Optional: generate prisma client (can also be done inside start CMD)
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 # Build TypeScript
-RUN npx tsc
+RUN npm run build
 
-# Copy generated files (if you manually generate and use them)
-RUN cp -r src/generated dist/generated || true
-
-# Expose port if needed (e.g., 3000)
+# Expose port if needed
 EXPOSE 3000
 
-# Start the app (and apply Prisma migrations)
+# Start the server
 CMD ["sh", "-c", "npx prisma migrate deploy --schema=./prisma/schema.prisma && node dist/server.js"]
