@@ -1,28 +1,36 @@
 FROM node:18
 
+# Add missing dependencies for headless Chromium (Puppeteer)
+RUN apt-get update && apt-get install -y \
+  wget \
+  ca-certificates \
+  fonts-liberation \
+  libappindicator3-1 \
+  libasound2 \
+  libatk-bridge2.0-0 \
+  libatk1.0-0 \
+  libcups2 \
+  libdbus-1-3 \
+  libgdk-pixbuf2.0-0 \
+  libnspr4 \
+  libnss3 \
+  libx11-xcb1 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxrandr2 \
+  xdg-utils \
+  --no-install-recommends \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /app
 
-# Copy everything
+# Copy everything and install dependencies
 COPY . .
-
-# Install dependencies
 RUN npm install
-
-# Generate Prisma client into src/generated/prisma
 RUN npx prisma generate --schema=./prisma/schema.prisma
-
-# Build TypeScript
 RUN npm run build
-
-# Manually copy the generated Prisma client to match import paths in dist
 RUN mkdir -p dist/generated/prisma && cp -r src/generated/prisma/* dist/generated/prisma/
 
-# Optional: list files for debugging
-# RUN ls -R dist
-
-# Expose your app port
 EXPOSE 3000
-
-# Run migrations and start server
 CMD ["sh", "-c", "npx prisma migrate deploy --schema=./prisma/schema.prisma && node dist/server.js"]
