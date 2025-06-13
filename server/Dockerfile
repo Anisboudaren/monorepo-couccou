@@ -1,43 +1,24 @@
-# Use a lightweight Node base image
-FROM node:18-slim
+# Use the Node.js base image
+FROM node:18
 
-# Puppeteer requires these dependencies
-RUN apt-get update && apt-get install -y \
-    wget \
-    ca-certificates \
-    fonts-liberation \
-    libappindicator3-1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libatk1.0-0 \
-    libcups2 \
-    libdbus-1-3 \
-    libgdk-pixbuf2.0-0 \
-    libnspr4 \
-    libnss3 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    xdg-utils \
-    --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
-
-# Set working dir
+# Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy source files
+# Copy the rest of your app
 COPY . .
 
-# Build your app
-RUN npm run build
+# Generate Prisma client (if not already generated)
+RUN npx prisma generate
 
-# Expose your app’s port
+# Build TypeScript and copy generated
+RUN npm run build && cp -r src/generated dist/generated
+
+# Expose port (optional, e.g. 3000)
 EXPOSE 3000
 
-# Launch Puppeteer and your app
-CMD npx prisma migrate deploy --schema=./prisma/schema.prisma && node ./dist/server.js
+# Start the server with Prisma migration
+CMD ["sh", "-c", "npx prisma migrate deploy --schema=./prisma/schema.prisma && node ./dist/server.js"]
