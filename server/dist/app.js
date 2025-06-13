@@ -78,6 +78,8 @@ app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const auth_middelware_1 = __importDefault(require("./utils/auth.middelware"));
 const auth_routes_1 = __importDefault(require("./auth/auth.routes"));
 app.use("/v1/auth", auth_routes_1.default);
+const scrape_routes_1 = __importDefault(require("./routes/scrape.routes"));
+app.use('/v1/scrape', scrape_routes_1.default);
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 app.use("/v1/user", auth_middelware_1.default, user_routes_1.default);
 const agent_routes_1 = __importDefault(require("./routes/agent.routes"));

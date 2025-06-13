@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAgentResponseFromDeepSeek = void 0;
+exports.summarizeWebsiteContent = exports.formatScrapedLinks = exports.getAgentResponseFromDeepSeek = void 0;
 const prisma_utils_1 = __importDefault(require("../utils/prisma.utils"));
 const axios_1 = __importDefault(require("axios"));
 const getAgentResponseFromDeepSeek = (_a) => __awaiter(void 0, [_a], void 0, function* ({ conversationId, }) {
@@ -109,3 +109,118 @@ const getAgentResponseFromDeepSeek = (_a) => __awaiter(void 0, [_a], void 0, fun
     return reply;
 });
 exports.getAgentResponseFromDeepSeek = getAgentResponseFromDeepSeek;
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions'; // adjust if needed
+const formatScrapedLinks = (title, description, links) => __awaiter(void 0, void 0, void 0, function* () {
+    const prompt = buildPrompt(title, description, links);
+    try {
+        const response = yield axios_1.default.post(DEEPSEEK_API_URL, {
+            model: 'deepseek-chat', // Replace with your actual model name if different
+            messages: [
+                {
+                    role: 'system',
+                    content: `
+You are a sitemap structure generator.
+
+Given a list of internal links from a website, structure them into a clear navigation hierarchy using **only a Markdown tree format** like:
+
+
+- Section
+  - Subsection
+    - URL or description
+
+❌ Do not include any explanation, introduction, commentary, questions, or observations.
+
+✅ Just return the markdown code block and nothing else.
+`
+                },
+                {
+                    role: 'user',
+                    content: prompt,
+                },
+            ],
+            temperature: 0.3,
+        }, {
+            headers: {
+                Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data.choices[0].message.content;
+    }
+    catch (error) {
+        console.error('DeepSeek format failed:', error);
+        throw new Error('Failed to format links with DeepSeek');
+    }
+});
+exports.formatScrapedLinks = formatScrapedLinks;
+const buildPrompt = (title, description, links) => {
+    let prompt = `Website Title: ${title}\nDescription: ${description}\n\nLinks:\n`;
+    links.forEach(link => {
+        prompt += `- ${link}\n`;
+    });
+    return prompt;
+};
+/**
+ * Summarize and extract meaningful content from a website using DeepSeek.
+ */
+const summarizeWebsiteContent = (markdown) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const response = yield axios_1.default.post(DEEPSEEK_API_URL, {
+            model: 'deepseek-chat',
+            messages: [
+                {
+                    role: 'system',
+                    content: `
+You are an intelligent assistant designed to extract all relevant, client-facing content from a website. 
+
+Your goal is not to summarize, but to deeply understand and restructure the page content so that a chatbot agent can effectively use it to answer customer questions about the website, business, or services.
+
+ Focus on:
+- Products or services offered
+- Descriptions, pricing, features, benefits
+- Company info (about, values, location, contact)
+- FAQs, instructions, guarantees, policies
+- Anything a client might ask the chatbot about
+
+ Ignore:
+- Navigation menus, footers, ads, UI controls
+- Empty, repetitive, or decorative text
+
+ Structure your response like this:
+
+website Overview
+A short, clear paragraph that explains what the business or website is about.
+
+Key Information
+Organized content with clear bullet points or sections
+-
+-
+- 
+( use headings, bullet points, and concise text depending on the content) 
+
+This information will be used by an AI chatbot to assist users — so make it comprehensive, clean, and factual. Do not mention that the content came from a webpage or markdown.
+and add any detailes or information that you think is relevant to the user or will be helpful for the chatbot to answer questions about the website.
+`,
+                },
+                {
+                    role: 'user',
+                    content: markdown,
+                },
+            ],
+            temperature: 0.4,
+        }, {
+            headers: {
+                Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data.choices[0].message.content;
+    }
+    catch (error) {
+        console.error('DeepSeek content summarization failed:', ((_a = error === null || error === void 0 ? void 0 : error.response) === null || _a === void 0 ? void 0 : _a.data) || error.message);
+        throw new Error('Failed to summarize website content with DeepSeek');
+    }
+});
+exports.summarizeWebsiteContent = summarizeWebsiteContent;
