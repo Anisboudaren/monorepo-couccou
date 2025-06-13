@@ -1,32 +1,23 @@
-# Use Node.js base image
+# Use official Node image
 FROM node:18
 
-# Set working directory inside container
+# Set working directory
 WORKDIR /app
 
-# Copy only package files first to leverage Docker layer caching
-COPY package*.json ./
-
-# Install all dependencies (including devDependencies like typescript)
-RUN npm install
-
-# Copy Prisma schema first so it can generate client
-COPY prisma ./prisma/
-
-# Run Prisma generate (before build)
-RUN npx prisma generate
-
-# Now copy the full project source code
+# Copy all project files first (you need prisma/schema.prisma *before* npm install)
 COPY . .
 
-# Build the TypeScript project
+# Now install dependencies safely
+RUN npm install
+
+# Optional: generate prisma client (can also be done inside start CMD)
+RUN npx prisma generate --schema=./prisma/schema.prisma
+
+# Build TypeScript
 RUN npm run build
 
-# (Optional) Copy manually generated files if needed
-RUN mkdir -p dist/generated && cp -r src/generated/prisma dist/generated/ || echo "Skip prisma copy"
-
-# Expose port
+# Expose port if needed
 EXPOSE 3000
 
-# Run DB migration and start the app
+# Start the server
 CMD ["sh", "-c", "npx prisma migrate deploy --schema=./prisma/schema.prisma && node dist/server.js"]
