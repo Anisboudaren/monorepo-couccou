@@ -174,7 +174,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "d:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\src\\generated\\prisma",
+      "value": "D:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -188,7 +188,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "d:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\9raya\\M2\\monorepo-couccou\\server-2\\monorepo-couccou\\server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

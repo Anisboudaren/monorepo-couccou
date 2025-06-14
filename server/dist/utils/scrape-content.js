@@ -15,7 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.scrapeWebsiteContent = void 0;
 const puppeteer_1 = __importDefault(require("puppeteer"));
 const scrapeWebsiteContent = (url) => __awaiter(void 0, void 0, void 0, function* () {
-    const browser = yield puppeteer_1.default.launch({ headless: true });
+    const browser = yield puppeteer_1.default.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     try {
         const page = yield browser.newPage();
         yield page.goto(url, { waitUntil: 'domcontentloaded' });
