@@ -5,3 +5,7 @@ import type { Request } from "express";
 export interface AuthenticatedRequest extends Request {
   user?: User;
 }
+
+import { Express } from 'express';
+
+export type UploadedFile = Express.Multer.File;

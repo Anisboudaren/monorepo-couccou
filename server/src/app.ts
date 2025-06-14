@@ -97,4 +97,8 @@ app.use("/v1/conversation", conversationRoutes);
 
 import messageRoutes from "./routes/message.routes";
 app.use("/v1/message", messageRoutes);
+
+import uploadRoutes from "./routes/upload.routes";
+app.use("/v1/upload", uploadRoutes);
+
 export default app;
